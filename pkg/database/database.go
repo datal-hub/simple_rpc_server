@@ -23,6 +23,9 @@ type DB interface {
 }
 
 func NewDB() (DB, error) {
+	if Testing == true {
+		return testDb()
+	}
 	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=%d password=%s user=%s dbname=%s sslmode=disable",
 		settings.DB.Host, settings.DB.Port, settings.DB.Password, settings.DB.User, settings.DB.Database))
 	return &pgsql.PgSQL{DB: db}, err
